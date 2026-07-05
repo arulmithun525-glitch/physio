@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhysioFit Sports & Rehab Clinic — Business Bay, Dubai</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #0f1f2e;
+      --teal: #1a7a6e;
+      --teal-light: #22a697;
+      --gold: #c9a84c;
+      --cream: #f7f3ee;
+      --white: #ffffff;
+      --text: #1e2d3a;
+      --muted: #6b8090;
+      --border: #dde4e8;
+      --card-bg: #ffffff;
+      --shadow: 0 4px 32px rgba(15,31,46,0.10);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(15,31,46,0.97);
+      backdrop-filter: blur(10px);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%;
+      height: 68px;
+      border-bottom: 1px solid rgba(201,168,76,0.25);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px; text-decoration: none;
+    }
+    .logo-mark {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--teal), var(--teal-light));
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700; font-size: 18px; color: white;
+    }
+    .logo-text { font-size: 18px; font-weight: 600; color: white; letter-spacing: 0.3px; }
+    .logo-text span { color: var(--gold); }
+
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,0.80); text-decoration: none;
+      font-size: 14px; font-weight: 500; letter-spacing: 0.5px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    .nav-cta {
+      background: var(--teal); color: white;
+      padding: 9px 22px; border-radius: 6px;
+      font-size: 14px; font-weight: 600; text-decoration: none;
+      border: none; cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .nav-cta:hover { background: var(--teal-light); transform: translateY(-1px); }
+
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 6px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: white; border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    .mobile-menu {
+      display: none; position: fixed; top: 68px; left: 0; right: 0;
+      background: var(--navy); z-index: 99;
+      padding: 28px 7%;
+      border-top: 1px solid rgba(201,168,76,0.2);
+      animation: slideDown 0.25s ease;
+    }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    .mobile-menu.open { display: block; }
+    .mobile-menu ul { list-style: none; }
+    .mobile-menu ul li { border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .mobile-menu ul li a {
+      display: block; padding: 14px 0;
+      color: rgba(255,255,255,0.85); text-decoration: none;
+      font-size: 16px; font-weight: 500;
+    }
+    .mobile-menu .mob-cta {
+      display: block; margin-top: 20px;
+      background: var(--teal); color: white; text-align: center;
+      padding: 14px; border-radius: 8px; font-weight: 600;
+      text-decoration: none; font-size: 16px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: var(--navy);
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: flex-start;
+      padding: 120px 8% 80px;
+      position: relative; overflow: hidden;
+    }
+    .hero-video {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      z-index: 0;
+    }
+    .hero-video-mobile { display: none; }
+    .hero-video-desktop { display: block; }
+    .hero-video-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(165deg, rgba(15,31,46,0.92) 0%, rgba(22,50,68,0.85) 55%, rgba(26,74,94,0.80) 100%);
+      z-index: 1;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 80% 50%, rgba(26,122,110,0.22) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .hero > *:not(.hero-video):not(.hero-video-overlay) {
+      position: relative; z-index: 2;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.35);
+      color: var(--gold); padding: 6px 16px; border-radius: 100px;
+      font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+      margin-bottom: 28px;
+      animation: fadeUp 0.8s ease both;
+    }
+    .hero-badge::before { content: '●'; font-size: 8px; }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(42px, 6vw, 82px);
+      font-weight: 700; line-height: 1.08;
+      color: white; max-width: 700px;
+      margin-bottom: 24px;
+      animation: fadeUp 0.8s 0.15s ease both;
+    }
+    .hero h1 em { font-style: normal; color: var(--teal-light); }
+
+    .hero p {
+      font-size: clamp(16px, 1.8vw, 19px);
+      color: rgba(255,255,255,0.68); max-width: 520px;
+      line-height: 1.7; margin-bottom: 40px;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+    .hero-actions {
+      display: flex; gap: 16px; flex-wrap: wrap;
+      animation: fadeUp 0.8s 0.45s ease both;
+    }
+    .btn-primary {
+      background: var(--teal); color: white;
+      padding: 14px 32px; border-radius: 8px;
+      font-size: 15px; font-weight: 600; text-decoration: none;
+      transition: all 0.2s; display: inline-block;
+      border: 2px solid transparent;
+    }
+    .btn-primary:hover { background: var(--teal-light); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26,166,151,0.35); }
+    .btn-outline {
+      background: transparent; color: white;
+      padding: 14px 32px; border-radius: 8px;
+      font-size: 15px; font-weight: 600; text-decoration: none;
+      border: 2px solid rgba(255,255,255,0.35);
+      transition: all 0.2s; display: inline-block;
+    }
+    .btn-outline:hover { border-color: white; background: rgba(255,255,255,0.06); }
+
+    .hero-stats {
+      position: absolute; bottom: 0; right: 0;
+      background: rgba(255,255,255,0.06); backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px 0 0 0;
+      padding: 28px 36px; display: flex; gap: 40px;
+      animation: fadeUp 0.8s 0.6s ease both;
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px; font-weight: 700; color: var(--gold);
+      display: block; line-height: 1;
+    }
+    .stat-label { font-size: 12px; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 1px; margin-top: 6px; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SECTION COMMON ── */
+    section { padding: 88px 8%; }
+    .section-label {
+      font-size: 11px; font-weight: 600; letter-spacing: 2.5px;
+      text-transform: uppercase; color: var(--teal);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(30px, 4vw, 48px);
+      font-weight: 700; color: var(--navy); line-height: 1.15;
+      margin-bottom: 18px;
+    }
+    .section-sub {
+      font-size: 17px; color: var(--muted); max-width: 560px; line-height: 1.7;
+    }
+
+    /* ── SERVICES ── */
+    .services { background: var(--white); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px; margin-top: 52px;
+    }
+    .service-card {
+      background: var(--cream);
+      border-radius: 14px; padding: 36px 28px;
+      border: 1px solid var(--border);
+      transition: all 0.25s; cursor: default;
+      position: relative; overflow: hidden;
+    }
+    .service-card::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--teal), var(--teal-light));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    .service-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: transparent; }
+    .service-card:hover::after { transform: scaleX(1); }
+    .svc-icon {
+      width: 52px; height: 52px;
+      background: linear-gradient(135deg, var(--teal), var(--teal-light));
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px; font-size: 22px;
+    }
+    .service-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px; font-weight: 600; color: var(--navy);
+      margin-bottom: 10px;
+    }
+    .service-card p { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+    /* ── ABOUT ── */
+    .about {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 72px; align-items: center;
+    }
+    .about-visual {
+      position: relative;
+    }
+    .about-card {
+      background: var(--navy);
+      border-radius: 20px; padding: 40px;
+      color: white;
+    }
+    .about-card .quote {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px; font-style: italic; line-height: 1.5;
+      color: rgba(255,255,255,0.9); margin-bottom: 28px;
+      position: relative;
+    }
+    .about-card .quote::before {
+      content: '"';
+      font-size: 80px; color: var(--teal); line-height: 0;
+      position: absolute; top: 22px; left: -8px;
+      font-family: 'Playfair Display', serif;
+    }
+    .about-card .quote-text { padding-left: 24px; }
+    .about-card .attribution { font-size: 13px; color: var(--gold); font-weight: 600; letter-spacing: 0.5px; }
+
+    .about-badges {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px;
+    }
+    .badge {
+      background: rgba(26,122,110,0.2); border: 1px solid rgba(26,166,151,0.4);
+      color: var(--teal-light); padding: 6px 14px; border-radius: 100px;
+      font-size: 12px; font-weight: 600;
+    }
+
+    .about-content .section-sub { max-width: 100%; margin-bottom: 24px; }
+    .about-list { list-style: none; margin: 24px 0; }
+    .about-list li {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+      font-size: 15px; color: var(--text);
+    }
+    .about-list li:last-child { border-bottom: none; }
+    .about-list li::before {
+      content: '✓';
+      background: var(--teal); color: white;
+      width: 20px; height: 20px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ── TEAM ── */
+    .team { background: var(--navy); }
+    .team .section-label { color: var(--gold); }
+    .team .section-title { color: white; }
+    .team .section-sub { color: rgba(255,255,255,0.55); }
+    .team-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px; margin-top: 52px;
+    }
+    .team-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px; padding: 36px 28px;
+      transition: all 0.25s;
+    }
+    .team-card:hover { background: rgba(255,255,255,0.08); transform: translateY(-4px); }
+    .team-avatar {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--teal), var(--teal-light));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 26px; font-weight: 700; color: white;
+      margin-bottom: 20px;
+    }
+    .team-card h3 { font-size: 19px; font-weight: 600; color: white; margin-bottom: 4px; }
+    .team-card .title { font-size: 13px; color: var(--gold); font-weight: 600; letter-spacing: 0.5px; margin-bottom: 14px; }
+    .team-card p { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.65; }
+
+    /* ── REVIEWS CAROUSEL ── */
+    .reviews { background: var(--cream); }
+    .carousel-wrapper {
+      position: relative; margin-top: 52px; overflow: hidden;
+    }
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+    }
+    .review-card {
+      background: white; border-radius: 14px; padding: 36px 32px;
+      border: 1px solid var(--border); box-shadow: 0 2px 12px rgba(15,31,46,0.06);
+      flex: 0 0 calc(33.333% - 16px);
+      margin-right: 24px;
+      box-sizing: border-box;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .review-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 32px rgba(15,31,46,0.13);
+    }
+    .stars { color: var(--gold); font-size: 16px; margin-bottom: 14px; letter-spacing: 2px; }
+    .review-card p {
+      font-size: 14px; color: var(--text); line-height: 1.7;
+      font-style: italic; margin-bottom: 18px;
+    }
+    .reviewer { font-size: 13px; font-weight: 600; color: var(--navy); }
+
+    /* Carousel controls */
+    .carousel-controls {
+      display: flex; align-items: center; justify-content: center;
+      gap: 16px; margin-top: 36px;
+    }
+    .carousel-btn {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--white); border: 2px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 18px; color: var(--navy);
+      transition: all 0.2s; flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(15,31,46,0.08);
+    }
+    .carousel-btn:hover { background: var(--teal); border-color: var(--teal); color: white; transform: scale(1.08); }
+    .carousel-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+    .carousel-dots {
+      display: flex; gap: 8px; align-items: center;
+    }
+    .carousel-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--border); cursor: pointer;
+      transition: all 0.25s;
+      border: none;
+    }
+    .carousel-dot.active {
+      background: var(--teal); width: 24px; border-radius: 4px;
+    }
+
+    @media (max-width: 900px) {
+      .review-card { flex: 0 0 calc(50% - 12px); }
+    }
+    @media (max-width: 600px) {
+      .review-card { flex: 0 0 100%; margin-right: 20px; padding: 28px 22px; }
+    }
+
+    /* ── HOURS & LOCATION ── */
+    .info { background: white; }
+    .info-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 48px; margin-top: 52px;
+    }
+    .info-block h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px; color: var(--navy);
+      margin-bottom: 20px; padding-bottom: 12px;
+      border-bottom: 2px solid var(--teal);
+    }
+    .hours-list { list-style: none; }
+    .hours-list li {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 11px 0; border-bottom: 1px solid var(--border);
+      font-size: 15px;
+    }
+    .hours-list li:last-child { border-bottom: none; }
+    .day { font-weight: 500; color: var(--text); }
+    .time { color: var(--teal); font-weight: 600; }
+    .closed { color: var(--muted); }
+
+    .contact-list { list-style: none; }
+    .contact-list li {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 14px 0; border-bottom: 1px solid var(--border);
+    }
+    .contact-list li:last-child { border-bottom: none; }
+    .contact-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--teal), var(--teal-light));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; flex-shrink: 0;
+    }
+    .contact-detail strong { display: block; font-size: 12px; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
+    .contact-detail a, .contact-detail span { font-size: 15px; color: var(--text); text-decoration: none; font-weight: 500; }
+    .contact-detail a:hover { color: var(--teal); }
+
+    /* ── BOOKING ── */
+    .booking {
+      background: linear-gradient(135deg, var(--teal) 0%, var(--navy) 100%);
+      text-align: center; padding: 88px 8%;
+    }
+    .booking .section-label { color: var(--gold); }
+    .booking .section-title { color: white; margin: 0 auto 16px; max-width: 600px; }
+    .booking p { color: rgba(255,255,255,0.7); font-size: 17px; margin-bottom: 40px; }
+    .booking .btn-primary { background: var(--gold); color: var(--navy); font-weight: 700; padding: 16px 40px; font-size: 16px; }
+    .booking .btn-primary:hover { background: #d4b565; box-shadow: 0 8px 28px rgba(201,168,76,0.4); }
+
+    /* ── MAP ── */
+    .map-section { padding: 0; }
+    .map-section iframe {
+      width: 100%; height: 380px; border: none; display: block;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy); color: rgba(255,255,255,0.55);
+      padding: 48px 8% 32px;
+    }
+    .footer-top {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      flex-wrap: wrap; gap: 32px; margin-bottom: 36px;
+    }
+    .footer-brand .logo-text { color: white; font-size: 20px; font-weight: 600; }
+    .footer-brand .logo-text span { color: var(--gold); }
+    .footer-brand p { font-size: 14px; margin-top: 10px; max-width: 280px; line-height: 1.65; }
+    .footer-links h4 { color: white; font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+    .footer-links ul { list-style: none; }
+    .footer-links ul li { margin-bottom: 10px; }
+    .footer-links ul li a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+    .footer-links ul li a:hover { color: var(--gold); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 24px; font-size: 13px;
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .about { grid-template-columns: 1fr; gap: 40px; }
+      .info-grid { grid-template-columns: 1fr; gap: 36px; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      section { padding: 64px 6%; }
+      .hero { padding: 100px 6% 72px; }
+      .hero-stats { display: none; }
+      .services-grid { grid-template-columns: 1fr; }
+      .team-grid { grid-template-columns: 1fr; }
+      .footer-top { flex-direction: column; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+
+      /* ── VIDEO MOBILE FIX ── */
+      .hero-video-desktop { display: none; }
+      .hero-video-mobile { display: block; object-position: center center; }
+      .hero-video-overlay {
+        background: linear-gradient(180deg, rgba(15,31,46,0.88) 0%, rgba(15,31,46,0.78) 100%);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-actions { flex-direction: column; }
+      .btn-primary, .btn-outline { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="logo-mark">P</div>
+    <span class="logo-text">Physio<span>Fit</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#info">Contact</a></li>
+  </ul>
+  <a href="tel:+97145852474" class="nav-cta">📞 Book Now</a>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="#services" onclick="closeMobile()">Services</a></li>
+    <li><a href="#about" onclick="closeMobile()">About</a></li>
+    <li><a href="#team" onclick="closeMobile()">Team</a></li>
+    <li><a href="#reviews" onclick="closeMobile()">Reviews</a></li>
+    <li><a href="#info" onclick="closeMobile()">Contact & Hours</a></li>
+  </ul>
+  <a href="tel:+97145852474" class="mob-cta">📞 Call to Book — +971 4 585 2474</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <!-- Desktop: landscape video -->
+  <video class="hero-video hero-video-desktop" autoplay muted loop playsinline poster="https://assets.mixkit.co/videos/49541/49541-thumb-360-0.jpg">
+    <source src="https://assets.mixkit.co/videos/49541/49541-720.mp4" type="video/mp4">
+  </video>
+  <!-- Mobile: native vertical/portrait video -->
+  <video class="hero-video hero-video-mobile" autoplay muted loop playsinline poster="https://assets.mixkit.co/videos/52079/52079-thumb-360-0.jpg">
+    <source src="https://assets.mixkit.co/videos/52079/52079-360.mp4" type="video/mp4">
+  </video>
+  <div class="hero-video-overlay"></div>
+  <div class="hero-badge">Business Bay · Dubai</div>
+  <h1>Recover Stronger.<br><em>Move Better.</em><br>Live Pain‑Free.</h1>
+  <p>Dubai's boutique sports physiotherapy & rehabilitation clinic — overlooking the Dubai Canal and Burj Khalifa, delivering tailored care you won't find anywhere else.</p>
+  <div class="hero-actions">
+    <a href="tel:+97145852474" class="btn-primary">📞 Book Appointment</a>
+    <a href="#services" class="btn-outline">Explore Treatments</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-num">12+</span><div class="stat-label">Years Experience</div></div>
+    <div class="stat"><span class="stat-num">★ 5.0</span><div class="stat-label">Patient Rating</div></div>
+    <div class="stat"><span class="stat-num">2+</span><div class="stat-label">Specialists</div></div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="section-label">What We Offer</div>
+  <h2 class="section-title">Specialist Treatments</h2>
+  <p class="section-sub">From acute injuries to chronic pain, we provide personalized, evidence-based care tailored to your goals.</p>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="svc-icon">🦴</div>
+      <h3>Physiotherapy</h3>
+      <p>Comprehensive assessment through to treatment and rehabilitation. Manual therapy, exercise & strength training, ultrasound, and preventative education.</p>
+    </div>
+    <div class="service-card">
+      <div class="svc-icon">🔧</div>
+      <h3>Chiropractic Care</h3>
+      <p>Expert chiropractic adjustment and spinal therapy by Dr. Mickael Malle D.C., targeting neck pain, back pain, and musculoskeletal alignment.</p>
+    </div>
+    <div class="service-card">
+      <div class="svc-icon">💉</div>
+      <h3>Dry Needling</h3>
+      <p>Advanced trigger‑point dry needling to release muscle tension, reduce chronic and acute pain, and restore full range of motion.</p>
+    </div>
+    <div class="service-card">
+      <div class="svc-icon">🏃</div>
+      <h3>Sports Rehabilitation</h3>
+      <p>Specialized sports injury recovery and performance enhancement. Get back on the field stronger, with injury prevention strategies built in.</p>
+    </div>
+    <div class="service-card">
+      <div class="svc-icon">💆</div>
+      <h3>Sports Massage</h3>
+      <p>Deep tissue and sports rehabilitation massage to relieve muscle soreness, enhance mobility, and accelerate recovery after training.</p>
+    </div>
+    <div class="service-card">
+      <div class="svc-icon">👩</div>
+      <h3>Women's Health</h3>
+      <p>Dedicated women's health physiotherapy services in a safe, supportive environment, addressing a wide range of specific conditions.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" style="background: var(--cream);">
+  <div class="about">
+    <div class="about-visual">
+      <div class="about-card">
+        <div class="quote">
+          <div class="quote-text">"At PhysioFit we equip you with the knowledge surrounding your pain and injury while offering you the best tailor-made treatments to ensure a successful and full recovery."</div>
+        </div>
+        <div class="attribution">— Shereen Hassam, Lead Physiotherapist</div>
+        <div class="about-badges">
+          <span class="badge">Boutique Clinic</span>
+          <span class="badge">Canal Views</span>
+          <span class="badge">Burj Khalifa Views</span>
+          <span class="badge">Business Bay</span>
+        </div>
+      </div>
+    </div>
+    <div class="about-content">
+      <div class="section-label">About PhysioFit</div>
+      <h2 class="section-title">More Than a Clinic</h2>
+      <p class="section-sub">Nestled in Dubai's Business Bay with panoramic views of the Dubai Canal and Burj Khalifa, PhysioFit is a serene, boutique rehabilitation space built around you.</p>
+      <ul class="about-list">
+        <li>Tailored treatment plans for every individual</li>
+        <li>Holistic approach combining therapy with education</li>
+        <li>Injury prevention strategies as standard</li>
+        <li>Diverse patient base across all age groups</li>
+        <li>Professional, warm, and welcoming environment</li>
+        <li>Advanced techniques: dry needling, manual therapy & more</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="team" id="team">
+  <div class="section-label">Our Specialists</div>
+  <h2 class="section-title">Meet the Team</h2>
+  <p class="section-sub">World-class practitioners dedicated to your recovery and long-term wellbeing.</p>
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-avatar">SH</div>
+      <h3>Shereen Hassam</h3>
+      <div class="title">Lead Physiotherapist & Clinic Director</div>
+      <p>Licensed physiotherapist with 12+ years of experience. Renowned specialist in dry needling, sports rehabilitation, and women's health. Her hands-on expertise has helped patients recover from chronic back pain, post-surgery rehabilitation, marathon injuries, and more.</p>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">MM</div>
+      <h3>Dr. Mickael Malle</h3>
+      <div class="title">Chiropractor, D.C.</div>
+      <p>Expert chiropractor delivering precise spinal adjustments and chiropractic care. Patients consistently report significant relief from neck, back, and postural issues after just a few sessions with Dr. Malle — leaving feeling energetic and pain-free.</p>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews" id="reviews">
+  <div class="section-label">Patient Stories</div>
+  <h2 class="section-title">What Our Patients Say</h2>
+  <p class="section-sub">Real results from real people — across Dubai and from around the world.</p>
+  <div class="carousel-wrapper" id="reviewCarousel">
+    <div class="carousel-track" id="carouselTrack">
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p>"After a 17-hour flight from Canada my back was completely seized. Shereen and Dr. Mika had me feeling relief the very next day. Best dry needling & chiro in Dubai — look no further."</p>
+        <div class="reviewer">Patient from Canada</div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p>"I had severe pain under my shoulder blade for three years. After 8 sessions the pain is completely gone. My range of motion is fully restored and my gym workouts have never been better."</p>
+        <div class="reviewer">Long-term Patient, Dubai</div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p>"Shereen is the best physiotherapist — she fixed my chronic back pain, knee injury, and neck pain when nobody else could. I can now work out in the gym and have even lost weight. Outstanding!"</p>
+        <div class="reviewer">Gym Enthusiast, Dubai</div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p>"I pulled my hamstring during the Dubai Half Marathon. Shereen used dry needling and got me back on track for the London Marathon. She put me at ease the whole time — highly professional."</p>
+        <div class="reviewer">Marathon Runner</div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p>"After 27 years of autoimmune issues, Shereen's work unlocked everything — every muscle, tendon, joint, and fascia. I travelled from Los Angeles specifically to see her. She is an incredible healer."</p>
+        <div class="reviewer">Patient from Los Angeles, USA</div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p>"Dr. Mickael Malle is amazing. After his sessions I feel very energetic and healthy — all discomfort in my neck and back is gone. I want to bring my whole family to see him."</p>
+        <div class="reviewer">Regular Patient, Dubai</div>
+      </div>
+    </div>
+  </div>
+  <div class="carousel-controls">
+    <button class="carousel-btn" id="prevBtn" aria-label="Previous">&#8592;</button>
+    <div class="carousel-dots" id="carouselDots"></div>
+    <button class="carousel-btn" id="nextBtn" aria-label="Next">&#8594;</button>
+  </div>
+</section>
+
+<!-- INFO: HOURS & CONTACT -->
+<section class="info" id="info">
+  <div class="section-label">Visit Us</div>
+  <h2 class="section-title">Hours & Contact</h2>
+  <p class="section-sub">Located in the heart of Business Bay — easy to reach, with stunning views to welcome you.</p>
+  <div class="info-grid">
+    <div class="info-block">
+      <h3>🕐 Opening Hours</h3>
+      <ul class="hours-list">
+        <li><span class="day">Sunday</span><span class="time">8:30 AM – 6:00 PM</span></li>
+        <li><span class="day">Monday</span><span class="time">8:30 AM – 6:00 PM</span></li>
+        <li><span class="day">Tuesday</span><span class="time">8:30 AM – 6:00 PM</span></li>
+        <li><span class="day">Wednesday</span><span class="time">8:30 AM – 6:00 PM</span></li>
+        <li><span class="day">Thursday</span><span class="time">8:30 AM – 6:00 PM</span></li>
+        <li><span class="day">Friday</span><span class="closed">Closed</span></li>
+        <li><span class="day">Saturday</span><span class="closed">Closed</span></li>
+      </ul>
+    </div>
+    <div class="info-block">
+      <h3>📍 Get in Touch</h3>
+      <ul class="contact-list">
+        <li>
+          <div class="contact-icon">📍</div>
+          <div class="contact-detail">
+            <strong>Address</strong>
+            <span>Bay View Tower, Office 806<br>Business Bay, Dubai, UAE</span>
+          </div>
+        </li>
+        <li>
+          <div class="contact-icon">📞</div>
+          <div class="contact-detail">
+            <strong>Phone</strong>
+            <a href="tel:+97145852474">+971 4 585 2474</a>
+          </div>
+        </li>
+        <li>
+          <div class="contact-icon">🌐</div>
+          <div class="contact-detail">
+            <strong>Website</strong>
+            <a href="https://physiofitdxb.com" target="_blank">physiofitdxb.com</a>
+          </div>
+        </li>
+        <li>
+          <div class="contact-icon">✉️</div>
+          <div class="contact-detail">
+            <strong>Book Online</strong>
+            <a href="https://physiofitdxb.com/book-an-appointment/" target="_blank">Book via website →</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- MAP -->
+<div class="map-section">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3610.5!2d55.2630!3d25.1864!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f69d5b6a4c0d5%3A0x0!2sBay+View+Tower%2C+Business+Bay%2C+Dubai!5e0!3m2!1sen!2sae!4v1"
+    allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+    title="PhysioFit Location — Bay View Tower, Business Bay, Dubai">
+  </iframe>
+</div>
+
+<!-- BOOKING CTA -->
+<section class="booking" id="booking">
+  <div class="section-label">Ready to Start?</div>
+  <h2 class="section-title">Take the First Step Toward a Pain-Free Life</h2>
+  <p>Consult with our specialists and discover the treatment tailored exactly to you. We welcome walk-ins and appointment bookings.</p>
+  <a href="tel:+97145852474" class="btn-primary">📞 Call +971 4 585 2474</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="logo-text">Physio<span>Fit</span> Sports & Rehab</div>
+      <p>Boutique physiotherapy & rehabilitation clinic in Business Bay, Dubai. Expert care, tailored to you.</p>
+    </div>
+    <div class="footer-links">
+      <h4>Treatments</h4>
+      <ul>
+        <li><a href="#services">Physiotherapy</a></li>
+        <li><a href="#services">Chiropractic</a></li>
+        <li><a href="#services">Dry Needling</a></li>
+        <li><a href="#services">Sports Massage</a></li>
+        <li><a href="#services">Women's Health</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>Clinic</h4>
+      <ul>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#team">Our Team</a></li>
+        <li><a href="#reviews">Patient Reviews</a></li>
+        <li><a href="#info">Contact & Hours</a></li>
+        <li><a href="https://physiofitdxb.com/book-an-appointment/" target="_blank">Book Online</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 PhysioFit Sports & Rehab Clinic — Bay View Tower, Office 806, Business Bay, Dubai</span>
+    <span>+971 4 585 2474 · physiofitdxb.com</span>
+  </div>
+</footer>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  // Ensure hero videos play on iOS
+  document.querySelectorAll('.hero-video').forEach(v => {
+    v.play().catch(() => { v.style.display = 'none'; });
+  });
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+
+  function closeMobile() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+  }
+
+  // Scroll fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.service-card, .team-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+
+  // ── CAROUSEL ──
+  (function() {
+    const track = document.getElementById('carouselTrack');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const dotsContainer = document.getElementById('carouselDots');
+    const cards = Array.from(track.children);
+
+    let current = 0;
+    let visibleCount = 3;
+
+    function getVisibleCount() {
+      const w = window.innerWidth;
+      if (w <= 600) return 1;
+      if (w <= 900) return 2;
+      return 3;
+    }
+
+    function totalPages() {
+      return Math.max(1, cards.length - visibleCount + 1);
+    }
+
+    function buildDots() {
+      dotsContainer.innerHTML = '';
+      for (let i = 0; i < totalPages(); i++) {
+        const dot = document.createElement('button');
+        dot.className = 'carousel-dot' + (i === current ? ' active' : '');
+        dot.setAttribute('aria-label', 'Go to page ' + (i + 1));
+        dot.addEventListener('click', () => goTo(i));
+        dotsContainer.appendChild(dot);
+      }
+    }
+
+    function updateDots() {
+      dotsContainer.querySelectorAll('.carousel-dot').forEach((d, i) => {
+        d.classList.toggle('active', i === current);
+      });
+    }
+
+    function getCardWidth() {
+      if (!cards[0]) return 0;
+      return cards[0].offsetWidth + 24; // card width + gap
+    }
+
+    function goTo(index) {
+      const pages = totalPages();
+      current = Math.max(0, Math.min(index, pages - 1));
+      track.style.transform = `translateX(-${current * getCardWidth()}px)`;
+      updateDots();
+      prevBtn.disabled = current === 0;
+      nextBtn.disabled = current >= pages - 1;
+    }
+
+    function init() {
+      visibleCount = getVisibleCount();
+      current = Math.min(current, totalPages() - 1);
+      buildDots();
+      goTo(current);
+    }
+
+    prevBtn.addEventListener('click', () => goTo(current - 1));
+    nextBtn.addEventListener('click', () => goTo(current + 1));
+
+    // Touch/swipe support
+    let touchStartX = 0;
+    track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend', e => {
+      const diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) goTo(current + (diff > 0 ? 1 : -1));
+    });
+
+    // Auto-advance every 5s
+    let autoTimer = setInterval(() => {
+      goTo(current >= totalPages() - 1 ? 0 : current + 1);
+    }, 5000);
+
+    [prevBtn, nextBtn].forEach(btn => btn.addEventListener('click', () => {
+      clearInterval(autoTimer);
+      autoTimer = setInterval(() => {
+        goTo(current >= totalPages() - 1 ? 0 : current + 1);
+      }, 5000);
+    }));
+
+    window.addEventListener('resize', init);
+    init();
+  })();
+</script>
+</body>
+</html>
